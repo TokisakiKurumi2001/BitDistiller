@@ -1,4 +1,4 @@
-export MODEL_PATH='/root/WizardCoder-Python-7B/'
+export MODEL_PATH='./quantization/llama2_7b_hf'
 export SAVE_PATH=$2
 export MASTER_ADDR="localhost"
 export MASTER_PORT="1321"
@@ -6,7 +6,10 @@ export GLOO_SOCKET_IFNAME="lo"
 export NCCL_SOCKET_IFNAME="lo"
 export WANDB_DISABLED=true  
 
-deepspeed --num_gpus=8 train.py \
+BATCH_SIZE=16
+let ACCUM_STEPS=$BATCH_SIZE/$5
+
+deepspeed --num_gpus=$6 train.py \
     --model_name_or_path $MODEL_PATH \
     --data_path $1 \
     --model_max_length 1024 \
@@ -15,9 +18,9 @@ deepspeed --num_gpus=8 train.py \
     --num_train_epochs $4 \
     --bf16 True \
     --seed 42 \
-    --per_device_train_batch_size 16 \
-    --per_device_eval_batch_size 16 \
-    --gradient_accumulation_steps 1 \
+    --per_device_train_batch_size $5 \
+    --per_device_eval_batch_size $5 \
+    --gradient_accumulation_steps $ACCUM_STEPS \
     --gradient_checkpointing True \
     --evaluation_strategy "steps" \
     --eval_steps 4 \
@@ -37,4 +40,4 @@ deepspeed --num_gpus=8 train.py \
     --train_kd True \
     --kd_loss_type "cakld" \
     --max_train_samples 999999 \
-    --clip BitDistiller/quantization/clip_cache/WizardCoder-7B/7b-int2-g128-twoclip.pt
+    --clip ./quantization/clip_cache/hf-llama2-7b/int2-g128.pt
