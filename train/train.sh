@@ -1,10 +1,10 @@
-export MODEL_PATH='./quantization/llama2_7b_hf'
+export MODEL_PATH='../quantization/llama2_7b_hf'
 export SAVE_PATH=$2
 export MASTER_ADDR="localhost"
 export MASTER_PORT="1321"
 export GLOO_SOCKET_IFNAME="lo"
 export NCCL_SOCKET_IFNAME="lo"
-export WANDB_DISABLED=true  
+export WANDB_MODE=offline 
 
 BATCH_SIZE=16
 let ACCUM_STEPS=$BATCH_SIZE/$5
@@ -32,7 +32,7 @@ deepspeed --num_gpus=$6 train.py \
     --lr_scheduler_type "constant" \
     --weight_decay 0. \
     --logging_steps 1 \
-    --report_to "tensorboard" \
+    --report_to "wandb" \
     --deepspeed config/zero.json \
     --bits 2 \
     --quant_type int2-asym \
@@ -40,4 +40,4 @@ deepspeed --num_gpus=$6 train.py \
     --train_kd True \
     --kd_loss_type "cakld" \
     --max_train_samples 999999 \
-    --clip ./quantization/clip_cache/hf-llama2-7b/int2-g128.pt
+    --clip ../quantization/clip_cache/hf-llama2-7b/int2-g128.pt
