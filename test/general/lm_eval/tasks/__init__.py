@@ -364,7 +364,9 @@ def add_json_task(task_name):
             )
         return lambda: json.JsonPerplexity(json_path)
 
-    TASK_REGISTRY[task_name] = create_json_task()
+    task = create_json_task()
+    print(task)
+    TASK_REGISTRY[task_name] = task
 
 
 def get_task(task_name):

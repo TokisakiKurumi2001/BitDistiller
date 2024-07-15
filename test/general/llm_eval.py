@@ -54,6 +54,7 @@ if __name__ == '__main__':
     model.eval()
 
     task_names = utils.pattern_match(args.eval_tasks.split(","), tasks.ALL_TASKS)
+    print(task_names)
 
     lm_eval_model = LMEvalAdaptor(args.model, model, tokenizer, args.batch_size)
     

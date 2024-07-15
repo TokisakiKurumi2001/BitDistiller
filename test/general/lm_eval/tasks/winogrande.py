@@ -32,7 +32,7 @@ _CITATION = """
 class Winogrande(Task):
     VERSION = 0
     # DATASET_PATH = "/root/model/datasets/winogrande"
-    DATASET_PATH = "winogrande"
+    DATASET_PATH = "allenai/winogrande"
     DATASET_NAME = "winogrande_xl"
 
     answer_to_num = {"1": 0, "2": 1}

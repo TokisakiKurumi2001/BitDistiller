@@ -29,6 +29,7 @@ _CITATION = """
 class ARCEasy(MultipleChoiceTask):
     VERSION = 0
     # DATASET_PATH = "/root/model/datasets/ai2_arc/ARC-Easy/1.0.0"
+    DATASET_PATH = "allenai/ai2_arc"
     DATASET_NAME = "ARC-Easy"
 
     def has_training_docs(self):
