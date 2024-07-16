@@ -131,9 +131,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', default='meta-llama/Llama-2-7b-hf', type=str) # quant base model
     parser.add_argument('--dev', type=str, default="cuda:0")
-    parser.add_argument('--quant_type', type=str, default="int", help='Quantization data type')
-    parser.add_argument('--bits', type=int, default=3, help='Quantization bits')
-    parser.add_argument('--group_size', type=int, default=128, help='Quantization group size')
 
     args = parser.parse_args()
     print(args)
