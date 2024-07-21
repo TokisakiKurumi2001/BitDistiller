@@ -63,6 +63,8 @@ def get_gen_dataset(dataset_name, max_sample=None, tokenizer=None):
         return get_wiki_dataset(max_sample)
     elif dataset_name == "repajama":
         return get_redpajama_dataset(max_sample)
+    elif dataset_name == 'minipile':
+        return get_minipile_dataset(max_sample)
     elif dataset_name == "alpaca":
         return get_alpaca_dataset(max_sample, tokenizer)
     elif dataset_name == "alpaca-solar":
@@ -97,6 +99,19 @@ def extract_random_dataset(sources, targets, max_sample=None):
 def get_wiki_dataset(max_sample):
     wiki_dataset = load_dataset("wikitext", 'wikitext-2-raw-v1', split='train')
     # wiki_dataset = load_dataset("/root/model/datasets/wikitext/wikitext", 'wikitext-2-raw-v1', split='train')
+
+    wiki_long = []
+    for text in wiki_dataset['text']:
+        if len(text) > 512:
+            wiki_long.append(text)
+    wiki_front = [long[:128] for long in wiki_long]
+
+    targets = sources = wiki_front
+
+    return extract_random_dataset(sources, targets, max_sample)
+
+def get_minipile_dataset(max_sample):
+    wiki_dataset = load_dataset("JeanKaddour/minipile", split='train')
 
     wiki_long = []
     for text in wiki_dataset['text']:
